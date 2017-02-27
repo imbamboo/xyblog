@@ -5,7 +5,14 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{ title }}</h1>
+    <h1 id="blogname">{{ title }}</h1>
     <p>Welcome to {{ title }}</p>
+    <p> 
+      {{#data}}
+      <span>{{name}}</span>
+      {{/data}}
+    </p>
+    <a href="about">about</a>
+
   </body>
 </html>
