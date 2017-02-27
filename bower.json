@@ -1,0 +1,21 @@
+{
+  "name": "xyblog",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Tony Day <oransite@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/imbamboo/xyblog",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "vue": "^2.2.1"
+  }
+}
