@@ -1,0 +1,10 @@
+<header>
+  <img src="/images/bamboo-xs.png" id="bamboo" />
+  <h1 id="blogname">竹子的博客</h1>
+
+  <div class="input-group" id="header-search-bar">
+    <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-search"></i></span>
+    <input type="text" class="form-control" placeholder="输入关键词按回车搜索..." aria-describedby="basic-addon1">
+  </div>
+  <div class="clearfix"></div>
+</header>
