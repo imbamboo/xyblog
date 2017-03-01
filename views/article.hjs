@@ -4,16 +4,17 @@
 <head>
   <title>{{ title }}</title>
   <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css' />
+  <link rel='stylesheet' href='/font-awesome/css/font-awesome.min.css' />
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-
+  <script type="text/javascript" src="/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 
 <body>
   <div id="body-box">
     {{> header}}
     <div id="middle">
-
+      {{> breadcrumb }}
       <div id="content">
         <article class="article-item">
           <div class="title-box">
@@ -43,8 +44,9 @@
           <a href="#" class="pull-right">下一篇 &raquo;</a>
           <div class="clearfix"></div>
         </div>
+        {{> doc_info }}
         <div class="article-list">
-          <p class="title-1-bd"><span>node.js</span>分类下的其它文章</p>
+          <p class="title-1-bd"><i class="fa fa-link"></i> <span>node.js</span>分类下的其它文章</p>
           <ul class="list">
             <li>
               <span class="mr10">2017/01-25</span>
@@ -63,6 +65,7 @@
         </div>
         <div class="clearfix"></div>
       </div>
+      {{> reviews }}
       {{> review_form}}
       <!--end #content-->
     </div>

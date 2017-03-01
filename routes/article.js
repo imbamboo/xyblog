@@ -9,6 +9,9 @@ router.get("/", function (req, res) {
             header: "header",
             blog_summary: "blog_summary",
             review_form: "review_form",
+            breadcrumb: "breadcrumb",
+            reviews: "reviews",
+            doc_info: "doc_info",
         },
     }
 

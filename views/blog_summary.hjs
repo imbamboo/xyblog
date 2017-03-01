@@ -1,8 +1,8 @@
 <div class="summary-box">
   <p class="title">内容分类</p>
   <ul class="list">
-    <li><a href="#">node.js</a><span class="ml10">(60)</span></li>
-    <li><a href="#">javascript</a></li>
+    <li><a href="#">node.js</a></li>
+    <li><span class="badge pull-right">14</span><a href="#">javascript</a></li>
     <li><a href="#">ios</a></li>
     <li><a href="#">swift</a></li>
     <li><a href="#">node.js</a></li>

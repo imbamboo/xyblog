@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading">发表评论</div>
+  <div class="panel-heading"><i class="fa fa-commenting"></i> 发表评论</div>
   <div class="panel-body">
     <form class="form-horizontal">
       <div class="form-group">
@@ -15,10 +15,15 @@
         <label for="inputPassword3" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" placeholder="Email">
-          <p style="padding: 0;margin: 0; padding-top: 5px;"><label>
+          <p style="padding: 0;margin: 0; padding-top: 5px;">
+            <label>
           <input type="checkbox" checked> 保密
         </label>
-            <span class="t-gray">（保密的话只有博主才能看到您的Email）</span>
+            <span class="t-gray mr20">（保密的话只有博主才能看到您的Email）</span>
+
+            <label>
+          <input type="checkbox" checked> 回复我的评论时发邮件给我
+        </label>
           </p>
         </div>
       </div>

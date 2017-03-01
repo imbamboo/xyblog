@@ -7,6 +7,10 @@
   margin-left: 10px;
 }
 
+.mr20{
+  margin-right: 20px;
+}
+
 .mr10{
   margin-right: 10px;
 }
@@ -29,13 +33,16 @@
 border-bottom: dotted 1px #ccc;
 }
 /*headline:end*/
+label{
+  font-weight: normal;
 
+}
 html{
   background-color: #f5f5d5;
 }
 body {
   padding: 10px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px  "微软雅黑", Helvetica, sans-serif, Arial, "Lucida Grande";
   background-color: #f5f5d5;
   
 }
@@ -140,7 +147,7 @@ left: -30px;
 }
 
 .article-item{
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .article-item:hover{
@@ -189,4 +196,46 @@ color: green;
   padding: 10px;
   border-radius: 5px;  
   margin-bottom: 15px;
+}
+
+/*评论列表:start*/
+.review-item{
+margin-bottom: 15px;
+border-bottom: dotted 1px #ccc;
+padding-bottom: 10px;
+}
+
+.review-header{
+  margin-bottom: 10px;
+}
+
+.review-header span{
+  margin-right: 10px;
+}
+
+.review-header span:first-child{
+  margin-right: 0;
+}
+
+.review-content{
+  line-height: 180%;
+}
+
+.review-item .tools a{
+text-decoration: none;
+}
+
+/*评论列表:end*/
+
+.section-box-1{
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border:dotted 1px #ccc;
+  line-height: 180%;
+  background-color: #fff;
+}
+
+.breadcrumb .btn-group{
+  cursor: pointer;
 }
