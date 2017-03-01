@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
+// init
+const db = require("./lib/mongodb");
+const categoryDb = require("./lib/categoryDb");
+
+// routes
 var index = require('./routes/index');
 var users = require('./routes/users');
 var about = require('./routes/about');
@@ -14,11 +20,40 @@ var article = require('./routes/article');
 
 var app = express();
 
+db.init();
+
+//******************************************* test code:start
+
+// var cate = {
+//   title: "javascript",
+//   createdTime: new Date(),
+//   articleCount: 0,
+//   urlName: "javascript",
+// };
+// categoryDb.add(cate);
+// categoryDb.findAll(function (items) {
+//   console.log(items);
+// });
+
+// var cate = new db.Category();
+// cate.title = "node.js";
+// cate.createdTime = new Date();
+// cate.articleCount = 0;
+// cate.save(function (err) {
+//   if (err) {
+//     throw err;
+//   }
+
+//   console.log("cate saved");
+// });
+
+//******************************************* test code:end
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
-  // app.set('partials', {footer: 'footer'});
-  // app.set('testa', "tttdd");
+// app.set('partials', {footer: 'footer'});
+// app.set('testa', "tttdd");
 //app.set("partials", { footer: 'footer' });
 
 // uncomment after placing your favicon in /public

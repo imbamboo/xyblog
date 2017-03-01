@@ -87,12 +87,6 @@
     </div>
     <!--end #middle-->
     {{> footer}}
-    <p>Welcome to {{ title }}</p>
-    <p>
-      {{#data}}
-      <span>{{name}}</span> {{/data}}
-    </p>
-    <a href="about">about</a>
   </div>
 </body>
 
