@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+  <link rel='stylesheet' href='/bower/bootstrap/dist/css/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+  <div id="body-box">
+    {{> _header}}
+    <div id="middle">
+      {{{body}}}
+    </div>
+    <!--end #middle-->
+    {{> _footer}}
+  </div>
+</body>
+
+</html>
