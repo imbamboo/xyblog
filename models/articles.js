@@ -1,6 +1,7 @@
 const modelName = "Article";
 const { mongoose, connection } = require("./db");
 const schemaExtends = require("./extends");
+const Category = require("./categories");
 
 var schema = new mongoose.Schema({
     createdTime: Date,
@@ -19,6 +20,25 @@ var schema = new mongoose.Schema({
 
 schemaExtends(schema, modelName);
 
+function fillCategoryInfo(next, articles) {
+    (new Category()).findAll(function (cates) {
+        articles.forEach(function (item) {
+            item._cate = cates.find(cate => cate._id.toString() === item.cateId);
+        });
+
+        next();
+    });
+}
+
+function fillUrl(articles) {
+    articles.forEach(item => {
+        if (item.urlName) {
+            item._url = `/${item._cate.urlName}/${item.urlName}`;
+        } else {
+            item._url = `/${item._cate.urlName}/_${item._id.toString()}`;
+        }
+    });
+}
 
 /**
  * 获取最佳展示的N篇文章
@@ -34,7 +54,11 @@ schema.methods.findTop = function (top, callback) {
                 throw err;
             }
 
-            callback(docs.map(item => item.toObject()));
+            let items = docs.map(item => item.toObject());
+            fillCategoryInfo(function () {
+                fillUrl(items);
+                callback(items);
+            }, items);
         });
 };
 
@@ -51,7 +75,11 @@ schema.methods.find = function (options, callback) {
                 throw err;
             }
 
-            callback(docs.map(item => item.toObject()));
+            let items = docs.map(item => item.toObject());
+            fillCategoryInfo(function () {
+                fillUrl(items);
+                callback(items);
+            }, items);
         });
 };
 

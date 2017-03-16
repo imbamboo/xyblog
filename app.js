@@ -43,8 +43,17 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
 app.use('/', index);
 app.use('/users', users);
+
+// var cate = ["csharp", "nodejs", "javascript"];
+// cate.forEach(item => {
+//   app.use("/" + item, function (req, res) {
+//     res.end(item);
+//   });
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

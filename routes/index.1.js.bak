@@ -1,6 +1,6 @@
-var _ = require("lodash");
 var express = require('express');
 var router = express.Router();
+//const globalConfig = require("../lib/global_config");
 const helper = require("../lib/helper");
 const Category = require("../models/categories");
 const Article = require("../models/articles");
@@ -36,21 +36,11 @@ function findArticles() {
 function findNewArticles(excludeIDs) {
   return new Promise(function (resolve, reject) {
     articleDb.find({ size: 3 + topArticleCount, index: 1 }, function (docs) {
-      _.remove(docs, item => {
-        return excludeIDs.includes(item._id.toString());
-      });
       resolve(docs);
     });
   });
 }
 
-function getArticleCount() {
-  return new Promise(function (resolve, reject) {
-    var tmp = articleDb.count(function (count) {
-      resolve(count);
-    });
-  });
-}
 // function createArticle() {
 //   var model = {
 //     createdTime: new Date(),
@@ -74,48 +64,49 @@ function getArticleCount() {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  // cateDb = new categoryDb();
+  // article = new articleDb();
+  //  createArticle();
+
+  // articleDb.find({
+  //   index: 1, size: 2
+  // }, function (docs) {
+  //   console.log(docs);
+
+  // });
+
   let cates, articles; // 目录，首要文章
   let newArticles; // 叫近文章
-  let articleCount;
   let p1 = findCates();
   let p2 = findArticles();
-  let p3 = getArticleCount();
-  let promise = Promise.all([p1, p2, p3]);
+  var promise = Promise.all([p1, p2]);
   promise.then(function (items) {
-    // 以下两行代码其丑无比，不能直观的知道 items[0], items[1]是什么东西
     cates = items[0];
     articles = items[1];
-    articleCount = items[2];
 
-    //  获取最近文件列表
-    let excludeIDs = articles.map(item => item._id.toString());
-    findNewArticles(excludeIDs).then(function (result) {
-      newArticles = result;
-      render();
-    }).catch(function (err) {
-      throw err;
-    });
   }).catch(function (err) {
     throw err;
   });
 
-  let render = function () {
-    console.log("index rendering...");
-
-    helper.formatDateTime(articles, { "createdTime": "YYYY/MM-DD" });
-    helper.formatDateTime(newArticles, { "createdTime": "YYYY/MM-DD" });
-    viewHelper.registerByName("_blog_summary")
-    viewHelper.registerByName("_article_item");
-    res.renderX('index', {
-      cates,
-      articles,
-      newArticles,
-      articleCount,
-      title: 'Express',
-    });
-  };
 
 
+  console.log("index rendering...");
+
+  helper.formatDateTime(articles, { "createdTime": "YYYY/MM-DD" });
+
+  viewHelper.registerByName("_blog_summary")
+  viewHelper.registerByName("_article_item");
+  res.renderX('index', {
+    cates,
+    articles,
+    title: 'Express',
+    // partials: {
+    //   footer: 'footer',
+    //   _header: "_header",
+    //   blog_summary: "blog_summary",
+    //   article_item: "article_item",
+    // },
+  });
 
 });
 

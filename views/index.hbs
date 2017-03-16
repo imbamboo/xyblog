@@ -2,26 +2,20 @@
   {{> _blog_summary}}
   <div class="clearfix"></div>
 </div>
-{{testF}}
 <div id="content" class="homepage-content">
   {{#articles}} {{> _article_item}} {{/articles}}
 
   <div class="article-list">
     <p class="title-1-bd">最近文章</p>
     <ul class="list">
+      {{#newArticles}}
       <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
+        <span class="mr10">{{createdTime}}</span>
+        <a href="{{_url}}">{{title}}</a>
       </li>
-      <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
-      </li>
-      <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
-      </li>
-      <li><a href="#">所有文章 (共96,234篇) &raquo;</a></li>
+      {{/newArticles}}
+      
+      <li><a href="/articles">所有文章 (共{{articleCount}}篇) &raquo;</a></li>
     </ul>
   </div>
   <div class="clearfix"></div>
