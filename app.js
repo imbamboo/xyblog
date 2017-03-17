@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 var hbs = require("hbs");
 var viewHelper = require("./lib/viewHelper");
 const globalConfig = require("./lib/global_config");
+
+
 //var test = require ("./test");
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var articleList = require('./routes/article_list');
 
 var app = express();
 
@@ -46,39 +48,28 @@ app.use(function (req, res, next) {
 
 
 app.use('/', index);
-app.use('/users', users);
+var promise = articleList(app);
+promise.then(function () {
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
 
-// var cate = ["csharp", "nodejs", "javascript"];
-// cate.forEach(item => {
-//   app.use("/" + item, function (req, res) {
-//     res.end(item);
-//   });
-// });
+  // error handler
+  app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+  });
+
+  app.listen(5000);
+  console.log("app started at port 5000, press ctrl+c to terminate.");
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-
-
-
-
-app.listen(5000);
-console.log("app started at port 5000, press ctrl+c to terminate.");
-
-//test.findAll();
 module.exports = app;
