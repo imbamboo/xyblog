@@ -28,4 +28,29 @@ module.exports = function (schema, modelName) {
             callback(count);
         });
     };
+
+    /**
+     * mongoose 原始模型操作
+     */
+    schema.methods.rawModel = {
+        findById(id, callback) {
+            this.model(modelName).findById(id, function (err, doc) {
+                if (err) {
+                    throw err;
+                }
+
+                callback(doc);
+            });
+        }, // end findById()
+
+        findAll(callback) {
+            this.model(modelName).find(function (err, docs) {
+                if (err) {
+                    throw err;
+                }
+
+                callback(docs);
+            });
+        } // end findAll()
+    }; // end model
 };

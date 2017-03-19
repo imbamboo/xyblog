@@ -83,5 +83,40 @@ schema.methods.find = function (options, callback) {
         });
 };
 
+/**
+ * 
+ */
+schema.methods.findListByCateId = function (cateId, options, callback) {
+    let start = (options.index - 1) * options.size;
+
+    this.model(modelName)
+        .find({ cateId: cateId })
+        .sort("-createdTime")
+        .skip(start)
+        .limit(options.size)
+        .exec(function (err, docs) {
+            if (err) {
+                throw err;
+            }
+
+            let items = docs.map(item => item.toObject());
+            fillCategoryInfo(function () {
+                fillUrl(items);
+                callback(items);
+            }, items);
+        });
+};
+
+schema.methods.getCountBy = function (options, callback) {
+    this.model(modelName)
+        .count(options, function (err, count) {
+            if (err) {
+                throw err;
+            }
+
+            callback(count);
+        });
+};
+
 var model = connection.model(modelName, schema);
 module.exports = model;

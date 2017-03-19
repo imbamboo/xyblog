@@ -1,0 +1,46 @@
+const Category = require("./models/categories");
+const Article = require("./models/articles");
+
+function createCates() {
+    let cates = [
+        {
+            title: "node.js",
+            urlName: "nodejs",
+        },
+        {
+            title: "c#",
+            urlName: "csharp",
+        },
+        {
+            title: "javascript",
+            urlName: "javascript",
+        },
+        {
+            title: "读书",
+            urlName: "books",
+        },
+    ];
+
+    let index = 0;
+    cates.forEach(item => {
+        var nowTime = new Date();
+        nowTime = nowTime.setDate(nowTime.getDate() - index);
+        var cate = new Category({
+            title: item.title,
+            articleCount: 0,
+            createdTime: nowTime,
+            urlName: item.urlName,
+        });
+        cate.save(function (err, doc) {
+            if (err) {
+                throw err;
+            }
+
+            console.log("cate " + item.title + " >>> saved");
+        });
+    });
+}
+
+module.exports = function () {
+    createCates();
+}

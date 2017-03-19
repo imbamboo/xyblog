@@ -24,8 +24,6 @@ app.set("view options", { layout: "layouts/default" });
 // register common partial views
 viewHelper.registerByName("_header");
 viewHelper.registerByName("_footer");
-// hbs.registerPartial("footer", "_footer");
-// hbs.registerPartial("header", "_header");
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -72,4 +70,6 @@ promise.then(function () {
   console.log("app started at port 5000, press ctrl+c to terminate.");
 });
 
+
+require("./test")();
 module.exports = app;

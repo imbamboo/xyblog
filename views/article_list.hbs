@@ -5,12 +5,13 @@
   <div class="article-list">
     <p class="title-1-bd">{{cate.title}}</p>
     <ul class="list">
-      {{#newArticles}}
+      {{#articles}}
       <li>
+        <span class="pull-right t-gray"><i class="glyphicon glyphicon-comment"></i> {{reviews}}</span>
         <span class="mr10">{{createdTime}}</span>
         <a href="{{_url}}">{{title}}</a>
       </li>
-      {{/newArticles}}
+      {{/articles}}
       
     </ul>
   </div>
