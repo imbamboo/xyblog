@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 module.exports = function (schema, modelName) {
     schema.methods.findAll = function (callback) {
         console.log("extends findAll()");
@@ -29,6 +31,16 @@ module.exports = function (schema, modelName) {
         });
     };
 
+    schema.methods.findOne = function (options, callback) {
+        return this.rawModel.findOne(options, function (doc) {
+            callback(doc.toObject());
+        });
+    };
+
+    schema.methods.findOneById = function (id, callback) {
+        return this.findOne({ _id: mongoose.Types.ObjectId(id) }, callback);
+    };
+
     /**
      * mongoose 原始模型操作
      */
@@ -51,6 +63,16 @@ module.exports = function (schema, modelName) {
 
                 callback(docs);
             });
-        } // end findAll()
+        }, // end findAll()
+
+        findOne(options, callback) {
+            this.model(modelName).findOne(options, function (err, doc) {
+                if (err) {
+                    throw err;
+                }
+
+                callback(doc);
+            });
+        }, // end findOne()
     }; // end model
 };

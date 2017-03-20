@@ -5,6 +5,7 @@ const helper = require("../lib/helper");
 const Category = require("../models/categories");
 const Article = require("../models/articles");
 const viewHelper = require("../lib/viewHelper");
+const article_details = require ("./article_details");
 
 var cateDb = new Category();
 var articleDb = new Article();
@@ -31,9 +32,7 @@ function loadArticleList(req, res, cate) {
     });
 }
 
-function articleDetail(req, res) {
-    
-}
+
 
 /**
  * 按文章目录设置访问路由
@@ -47,9 +46,7 @@ module.exports = function (app) {
                 }
 
                 // view article
-                app.use("/" + cate.urlName + "/[a-zA-Z0-9-]+", function (req, res, next) {
-                    articleDetail(req, res);
-                });
+                app.use("/" + cate.urlName + "/:articleName", article_details);
 
                 // list article items by category
                 app.use("/" + cate.urlName, function (req, res, next) {
