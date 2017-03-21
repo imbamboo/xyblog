@@ -83,10 +83,47 @@ schema.methods.find = function (options, callback) {
         });
 };
 
+schema.methods.findListByCateIdInRandom = function (excludedId, cateId, top, callback) {
+    this.find({ cateId, id: { "$ne": mongoose.Types.ObjectId(excludedId) } })
+        .limit(top)
+        .sort("-createdTime")
+        .exec(function (err, docs) {
+            if (err) {
+                throw err;
+            }
+
+            let items = docs.map(item => item.toObject());
+            callback(items);
+        });
+    // new Promise(function (resolve, reject) {
+    //     this.count(function (count) {
+    //         resolve(count);
+    //     });
+    // }).then(function (count) {
+    //     if (count <= top) {
+    //         this.findAll(function (doc) {
+    //             callback(doc);
+    //         });
+    //         return;
+    //     }
+
+
+    // });
+};
+
 /**
- * 
+ * options: {
+ *  {Number}pageIndex
+ *  {Number}pageSize
+ *  {Boolean}random
+ * }
  */
 schema.methods.findListByCateId = function (cateId, options, callback) {
+    if (options.random) {
+        this.findListByCateIdInRandom(cateId, callback);
+        return;
+    }
+
     let start = (options.index - 1) * options.size;
 
     this.model(modelName)
