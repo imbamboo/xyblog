@@ -34,7 +34,7 @@ function articleDetail(req, res, next) {
                 });
             }
         });
-    }
+    };
 
     let fn_render = function (article, cate) {
         console.log(article);
