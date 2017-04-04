@@ -15,29 +15,38 @@
   </article>
   <div class="next-article">
     <p>本篇文章阅读完毕</p>
-    <a href="#" class="pull-left">&laquo; 上一篇</a>
-    <a href="#" class="pull-right">下一篇 &raquo;</a>
+    {{#if adjacent.prev}}
+    <a href="{{adjacent.prev._url}}" class="pull-left" title="{{adjacent.prev.title}}">&laquo; 上一篇</a>
+    {{else}}
+    <span class="pull-left">无</span>
+    {{/if}}
+    {{#if adjacent.next}}
+    <a href="{{adjacent.next._url}}" class="pull-right" title="{{adjacent.next.title}}">下一篇 &raquo;</a>
+    {{else}}
+    <span class="pull-right">无</span>
+    {{/if}}
     <div class="clearfix"></div>
   </div>
   <div class="article-list">
     <p class="title-1-bd"><span>{{cate.title}}</span>分类下的其它文章</p>
     <ul class="list">
+      {{#related}}
       <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
+        <span class="mr10">{{createdTime}}</span>
+        <a href="{{_url}}">{{title}}</a>
       </li>
-      <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
-      </li>
-      <li>
-        <span class="mr10">2017/01-25</span>
-        <a href="#">Redux 入门教程（二）：中间件与异步操作</a>
-      </li>
-      <li><a href="#">所有文章 (共96,234篇) &raquo;</a></li>
+      {{/related}}
+      <li><a href="/{{cate.urlName}}">所有文章 (共{{cateArticleCount}}篇) &raquo;</a></li>
     </ul>
   </div>
   <div class="clearfix"></div>
 </div>
+
+{{#if article.reviewable}}
 {{> _review_form}}
+{{/if}}
 <!--end #content-->
+
+<script>
+  vueComponent.reviewForm();
+</script>

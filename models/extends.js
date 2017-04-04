@@ -1,6 +1,21 @@
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 module.exports = function (schema, modelName) {
+    schema.methods.$ = {
+        getObjects(items) {
+            let objects = items.map(item => {
+                if (item === null) {
+                    return null;
+                }
+
+                return item.toObject();
+            });
+            //return _.compact(objects);
+            return objects;
+        }
+    };
+
     schema.methods.findAll = function (callback) {
         console.log("extends findAll()");
 
@@ -39,6 +54,17 @@ module.exports = function (schema, modelName) {
 
     schema.methods.findOneById = function (id, callback) {
         return this.findOne({ _id: mongoose.Types.ObjectId(id) }, callback);
+    };
+
+    schema.methods.countBy = function (options, callback) {
+        this.model(modelName)
+            .count(options, function (err, count) {
+                if (err) {
+                    throw err;
+                }
+
+                callback(count);
+            });
     };
 
     /**

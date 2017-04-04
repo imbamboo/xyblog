@@ -23,6 +23,10 @@ schemaExtends(schema, modelName);
 function fillCategoryInfo(next, articles) {
     (new Category()).findAll(function (cates) {
         articles.forEach(function (item) {
+            if (!item) {
+                return;
+            }
+
             item._cate = cates.find(cate => cate._id.toString() === item.cateId);
         });
 
@@ -32,6 +36,10 @@ function fillCategoryInfo(next, articles) {
 
 function fillUrl(articles) {
     articles.forEach(item => {
+        if (!item) {
+            return;
+        }
+
         if (item.urlName) {
             item._url = `/${item._cate.urlName}/${item.urlName}`;
         } else {
@@ -84,7 +92,7 @@ schema.methods.find = function (options, callback) {
 };
 
 schema.methods.findListByCateIdInRandom = function (excludedId, cateId, top, callback) {
-    this.find({ cateId, id: { "$ne": mongoose.Types.ObjectId(excludedId) } })
+    this.model(modelName).find({ cateId, _id: { "$ne": mongoose.Types.ObjectId(excludedId) } })
         .limit(top)
         .sort("-createdTime")
         .exec(function (err, docs) {
@@ -93,7 +101,10 @@ schema.methods.findListByCateIdInRandom = function (excludedId, cateId, top, cal
             }
 
             let items = docs.map(item => item.toObject());
-            callback(items);
+            fillCategoryInfo(function () {
+                fillUrl(items);
+                callback(items);
+            }, items);
         });
     // new Promise(function (resolve, reject) {
     //     this.count(function (count) {
@@ -153,6 +164,52 @@ schema.methods.getCountBy = function (options, callback) {
 
             callback(count);
         });
+};
+
+schema.methods.countByCateId = function (cateId, callback) {
+    this.countBy({
+        cateId
+    }, function (count) {
+        callback(count);
+    });
+};
+
+/**
+ * 获取相邻的文章
+ */
+schema.methods.getAdjacent = function (id, createdTime, callback) {
+    let adjacent = {};
+
+    let fn_get = function (prev, next) {
+        return new Promise((resolve, reject) => {
+            let query = this.model(modelName).findOne()
+                .where("_id").ne(mongoose.Types.ObjectId(id));
+
+            if (next) {
+                query.where("createdTime").gte(createdTime);
+            } else {
+                query.where("createdTime").lte(createdTime);
+            }
+
+            query.exec((err, doc) => {
+                resolve(doc);
+            });
+        }); // end promise
+    }.bind(this); // end fn_get
+
+    var pms_all = Promise.all([fn_get(true, false), fn_get(false, true)]);
+    pms_all.then(pmsReturns => {
+
+        let items = this.$.getObjects([pmsReturns[0], pmsReturns[1]]);
+        fillCategoryInfo(function () {
+            fillUrl(items);
+            callback(adjacent);
+        }, items);
+
+        adjacent.prev = items[0];
+        adjacent.next = items[1];
+        callback(adjacent)
+    });
 };
 
 var model = connection.model(modelName, schema);

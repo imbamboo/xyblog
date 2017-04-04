@@ -34,17 +34,41 @@ function articleDetail(req, res, next) {
                 });
             }
         });
+    }
+
+    let pms_findRelated = function (currentArticle) {
+        return new Promise(function (resolve, reject) {
+            articleDb.findListByCateIdInRandom(currentArticle._id.toString(), currentArticle.cateId, 3, function (items) {
+                resolve(items);
+            });
+        });
     };
 
-    let fn_render = function (article, cate) {
+    let pms_getArticleCountByCateId = function (cateId) {
+        return new Promise(function (resolve, reject) {
+            articleDb.countByCateId(cateId, resolve);
+        });
+    };
+
+    let pms_getAdjacent = function (article) {
+        return new Promise((resolve, reject) => {
+            articleDb.getAdjacent(article._id, article.createdTime, resolve);
+        });
+    };
+
+    let fn_render = function (article, cate, related, count, adjacent) {
         console.log(article);
 
         viewHelper.registerByName("_review_form");
         helper.formatDateTime([article], { "createdTime": "YYYY/MM-DD" });
+        helper.formatDateTime(related, { "createdTime": "YYYY/MM-DD" });
 
         res.renderX("article_details", {
             article,
             cate,
+            related,
+            cateArticleCount: count,
+            adjacent,
         });
     };
 
@@ -56,9 +80,22 @@ function articleDetail(req, res, next) {
     }
 
     promise.then(function (article) {
-        pms_getCate(article.cateId).then(cate => {
-            fn_render(article, cate);
+        let pmsAll = Promise.all([
+            pms_getCate(article.cateId)
+            , pms_findRelated(article)
+            , pms_getArticleCountByCateId(article.cateId)
+            , pms_getAdjacent(article)
+        ]);
+        pmsAll.then(function (pmsReturns) {
+            let cate = pmsReturns[0];
+            let related = pmsReturns[1];
+            let count = pmsReturns[2];
+            let adjacent = pmsReturns[3];
+            fn_render(article, cate, related, count, adjacent);
         });
+        // .then(cate => {
+        //     fn_render(article, cate);
+        // });
     });
 }
 
